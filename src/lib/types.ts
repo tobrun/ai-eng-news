@@ -1,17 +1,3 @@
-export type TopicSlug =
-  | "agents"
-  | "evals"
-  | "retrieval"
-  | "inference"
-  | "training"
-  | "security"
-  | "foundations";
-
-export interface Topic {
-  slug: TopicSlug;
-  name: string;
-}
-
 /** How many grid modules a story occupies: lead 6×2, feature 3×2, brief 3×1. */
 export type Prominence = "lead" | "feature" | "brief";
 
@@ -22,7 +8,6 @@ export interface Article {
   url: string;
   source: string;
   author: string;
-  topic: TopicSlug;
   readMinutes: number;
   /** ISO date (YYYY-MM-DD) the summary was posted on this site. */
   postedAt: string;

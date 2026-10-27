@@ -6,10 +6,9 @@ import styles from "./Masthead.module.css";
 interface MastheadProps {
   storyCount: number;
   updatedAt?: string;
-  topicName?: string;
 }
 
-export function Masthead({ storyCount, updatedAt, topicName }: MastheadProps) {
+export function Masthead({ storyCount, updatedAt }: MastheadProps) {
   return (
     <header className={styles.masthead}>
       <h1 className={styles.title}>
@@ -20,12 +19,6 @@ export function Masthead({ storyCount, updatedAt, topicName }: MastheadProps) {
       <div className={styles.about}>
         <p className={styles.description}>{site.description}</p>
         <dl className={styles.facts}>
-          {topicName && (
-            <div>
-              <dt>Topic</dt>
-              <dd>{topicName}</dd>
-            </div>
-          )}
           <div>
             <dt>Summaries</dt>
             <dd>{storyCount}</dd>

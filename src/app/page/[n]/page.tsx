@@ -5,7 +5,6 @@ import {
   getArticles,
   getLatestPostedAt,
   getOlderArticles,
-  getTopics,
   isPageNumber,
   pageCount,
   pageOf,
@@ -33,7 +32,6 @@ export default async function OlderPage({ params }: PageProps<"/page/[n]">) {
   const articles = getArticles();
   return (
     <FeedPage
-      topics={getTopics()}
       rows={pageOf(older, Number(n))}
       page={Number(n)}
       pageCount={count}

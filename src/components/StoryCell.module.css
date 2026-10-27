@@ -40,13 +40,13 @@
   color: var(--card-fg);
 }
 
-/* Activation fill: the topic colour sweeps left to right, a forward pass through the cell. */
+/* Activation fill: the accent colour sweeps left to right, a forward pass through the cell. */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--topic);
+  background: var(--accent);
   clip-path: inset(0 100% 0 0);
   transition: clip-path var(--dur-exit) ease-in;
 }
@@ -69,11 +69,11 @@
 
 .cell:hover .card,
 .cell:focus-within .card {
-  --card-fg: var(--on-topic);
-  --card-soft: var(--on-topic);
-  --card-muted: var(--on-topic-muted);
-  --card-strong: var(--on-topic);
-  --card-visited: var(--on-topic-muted);
+  --card-fg: var(--on-accent);
+  --card-soft: var(--on-accent);
+  --card-muted: var(--on-accent-muted);
+  --card-strong: var(--on-accent);
+  --card-visited: var(--on-accent-muted);
 }
 
 .cell:hover .card::before,
@@ -83,7 +83,7 @@
 }
 
 .cell:has(.link:focus-visible) .card {
-  outline: 3px solid var(--on-topic);
+  outline: 3px solid var(--on-accent);
   outline-offset: -7px;
 }
 
@@ -108,26 +108,6 @@
 
 .source {
   font-weight: 600;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  color: var(--topic-tag);
-  font-weight: 600;
-}
-
-.tag::before {
-  content: "";
-  width: 0.6em;
-  height: 0.6em;
-  background: currentColor;
-}
-
-.cell:hover .tag,
-.cell:focus-within .tag {
-  color: var(--on-topic);
 }
 
 .numbers {

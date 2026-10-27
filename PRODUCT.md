@@ -21,8 +21,7 @@ Human-curated, AI-assisted. A person chooses every post. Summaries may be drafte
 ## Operating Context
 
 - Reading happens in short sessions on desktop and phone.
-- Stories are grouped by topic: Agents, Evals, Retrieval, Inference, Training, Security, Foundations.
-- Each story records source, author, topic, estimated read time, and the date the summary was posted here (not the original publish date).
+- Each story records source, author, estimated read time, and the date the summary was posted here (not the original publish date).
 
 ## Capabilities and Constraints
 
@@ -45,6 +44,6 @@ Human-curated, AI-assisted. A person chooses every post. Summaries may be drafte
 ## Product Principles
 
 1. The original author gets the click. Every surface leads to the source.
-2. Judge in seconds: a story's source, topic, length, and gist must be readable at a glance.
+2. Judge in seconds: a story's source, length, and gist must be readable at a glance.
 3. Curation is the product. Prominence reflects an editorial choice, not engagement.
 4. Clean by default: no third-party scripts until a metrics decision is made.

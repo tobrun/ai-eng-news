@@ -1,22 +1,10 @@
-import { articles, topics } from "@/data/articles";
-import type { Article, Topic } from "./types";
+import { articles } from "@/data/articles";
+import type { Article } from "./types";
 
 const byNewest = (a: Article, b: Article) => b.postedAt.localeCompare(a.postedAt);
 
 export function getArticles(): Article[] {
   return [...articles].sort(byNewest);
-}
-
-export function getArticlesByTopic(slug: string): Article[] {
-  return getArticles().filter((article) => article.topic === slug);
-}
-
-export function getTopics(): Topic[] {
-  return topics;
-}
-
-export function getTopic(slug: string): Topic | undefined {
-  return topics.find((topic) => topic.slug === slug);
 }
 
 export function getLatestPostedAt(list: Article[]): string | undefined {
@@ -55,8 +43,4 @@ export function isPageNumber(text: string, count: number): boolean {
 export function pageTitle(n: number, base?: string): string {
   const label = `Page ${n}`;
   return base ? `${base} - ${label}` : label;
-}
-
-export function topicPath(slug: string): string {
-  return `/topics/${slug}`;
 }

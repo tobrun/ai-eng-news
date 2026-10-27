@@ -40,8 +40,8 @@
 
 .row:hover .article,
 .row:focus-within .article {
-  background: var(--topic);
-  color: var(--on-topic);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .date,
@@ -90,7 +90,7 @@
 }
 
 .row:has(.link:focus-visible) .article {
-  outline: 3px solid var(--on-topic);
+  outline: 3px solid var(--on-accent);
   outline-offset: -5px;
 }
 
@@ -102,16 +102,12 @@
 
 .row:hover .meta,
 .row:focus-within .meta {
-  color: var(--on-topic-muted);
+  color: var(--on-accent-muted);
 }
 
 .meta span + span::before {
   content: "·";
   margin-inline: 0.5em;
-}
-
-.tag {
-  font-weight: 600;
 }
 
 @media (max-width: 64rem) {

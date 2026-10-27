@@ -6,12 +6,10 @@ import styles from "./StoryCell.module.css";
 
 interface StoryCellProps {
   article: Article;
-  topicName: string;
-  showTopic: boolean;
   priority?: boolean;
 }
 
-export function StoryCell({ article, topicName, showTopic, priority = false }: StoryCellProps) {
+export function StoryCell({ article, priority = false }: StoryCellProps) {
   // A brief is one grid module tall and has no room for an image.
   const image = article.prominence === "brief" ? null : article.image;
 
@@ -23,12 +21,11 @@ export function StoryCell({ article, topicName, showTopic, priority = false }: S
       exit="cell-out"
       default="none"
     >
-      <li className={`${styles.cell} ${styles[article.prominence]}`} data-topic={article.topic}>
+      <li className={`${styles.cell} ${styles[article.prominence]}`}>
         <article className={styles.card}>
           {image && <StoryImage src={image} className={styles.image} priority={priority} />}
           <p className={styles.top}>
             <span className={styles.source}>{article.source}</span>
-            {showTopic && <span className={styles.tag}>{topicName}</span>}
           </p>
           <h3 className={styles.title}>
             {/* The link's ::after stretches over the whole card so the cell stays one click target. */}

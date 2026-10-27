@@ -1,20 +1,18 @@
-import type { Article, Topic } from "@/lib/types";
+import type { Article } from "@/lib/types";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import { StoryGrid } from "./StoryGrid";
 import styles from "./StoryList.module.css";
 
 interface StoryListProps {
   articles: Article[];
-  topics: Topic[];
   heading: string;
 }
 
-export function StoryList({ articles, topics, heading }: StoryListProps) {
+export function StoryList({ articles, heading }: StoryListProps) {
   if (articles.length === 0) {
-    return <StoryGrid articles={articles} topics={topics} heading={heading} showTopic />;
+    return <StoryGrid articles={articles} heading={heading} />;
   }
 
-  const topicNames = new Map(topics.map((topic) => [topic.slug, topic.name]));
 
   return (
     <section aria-labelledby="list-heading" className={styles.section}>
@@ -23,7 +21,7 @@ export function StoryList({ articles, topics, heading }: StoryListProps) {
       </h2>
       <ol className={styles.list}>
         {articles.map((article) => (
-          <li key={article.slug} className={styles.row} data-topic={article.topic}>
+          <li key={article.slug} className={styles.row}>
             <article className={styles.article}>
               <time dateTime={article.postedAt} className={styles.date}>
                 {formatShortDate(article.postedAt)}
@@ -36,7 +34,6 @@ export function StoryList({ articles, topics, heading }: StoryListProps) {
               </h3>
               <p className={styles.meta}>
                 <span>{article.source}</span>
-                <span className={styles.tag}>{topicNames.get(article.topic) ?? article.topic}</span>
                 <span>{formatReadTime(article.readMinutes)}</span>
               </p>
             </article>

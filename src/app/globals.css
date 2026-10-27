@@ -8,13 +8,13 @@
   --visited: #6b7183;
   --rule: #a9b0b8;
   --signal: #2433d6;
-  --on-topic: #f7f8fa;
+  --on-accent: #f7f8fa;
 
-  /* Topic hues share one lightness/chroma so no topic outranks another. */
-  --topic-l: 0.44;
-  --topic-c: 0.12;
-  --tag-l: 0.47;
-  --tag-c: 0.13;
+  --accent-l: 0.44;
+  --accent-c: 0.12;
+  --accent-h: 245;
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
+  --on-accent-muted: color-mix(in oklch, var(--on-accent) 80%, var(--accent));
 
   --rule-width: 1px;
   --columns: 12;
@@ -53,26 +53,10 @@
     --rule: #3a4066;
     --signal: #8a95ff;
 
-    --topic-l: 0.46;
-    --tag-l: 0.8;
-    --tag-c: 0.1;
+    --accent-l: 0.46;
 
     color-scheme: dark;
   }
-}
-
-[data-topic="training"] { --topic-h: 25; }
-[data-topic="inference"] { --topic-h: 75; }
-[data-topic="evals"] { --topic-h: 145; }
-[data-topic="retrieval"] { --topic-h: 195; }
-[data-topic="foundations"] { --topic-h: 245; }
-[data-topic="agents"] { --topic-h: 295; }
-[data-topic="security"] { --topic-h: 345; }
-
-[data-topic] {
-  --topic: oklch(var(--topic-l) var(--topic-c) var(--topic-h));
-  --topic-tag: oklch(var(--tag-l) var(--tag-c) var(--topic-h));
-  --on-topic-muted: color-mix(in oklch, var(--on-topic) 80%, var(--topic));
 }
 
 @media (max-width: 64rem) {
@@ -161,7 +145,7 @@ body {
   outline-offset: -3px;
 }
 
-/* Topic switch: stories present on both pages glide to their new slot; others wipe in or fade out. */
+/* Page switch: stories present on both pages glide to their new slot; others wipe in or fade out. */
 ::view-transition-group(.reflow) {
   overflow: clip;
   animation-duration: var(--dur-move);

@@ -1,5 +1,5 @@
 import { FeedPage } from "@/components/FeedPage";
-import { getArticles, getFrontPage, getLatestPostedAt, getOlderArticles, getTopics, pageCount, pageOf } from "@/lib/articles";
+import { getArticles, getFrontPage, getLatestPostedAt, getOlderArticles, pageCount, pageOf } from "@/lib/articles";
 
 export default function Home() {
   const articles = getArticles();
@@ -7,7 +7,6 @@ export default function Home() {
 
   return (
     <FeedPage
-      topics={getTopics()}
       frontPage={getFrontPage()}
       rows={pageOf(older, 1)}
       page={1}
