@@ -1,0 +1,223 @@
+:root {
+  --paper: #dce0e3;
+  --cell: #f4f5f6;
+  --ink: #161a33;
+  --ink-soft: #2e3350;
+  --muted: #50576a;
+  --cell-muted-inverse: #b9bfd6;
+  --visited: #6b7183;
+  --rule: #a9b0b8;
+  --signal: #2433d6;
+  --on-topic: #f7f8fa;
+
+  /* Topic hues share one lightness/chroma so no topic outranks another. */
+  --topic-l: 0.44;
+  --topic-c: 0.12;
+  --tag-l: 0.47;
+  --tag-c: 0.13;
+
+  --rule-width: 1px;
+  --columns: 12;
+  --page-gutter: clamp(1rem, 2.5vw, 2.5rem);
+
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1.25rem;
+  --space-4: 2rem;
+
+  /* Classical scale: 12 · 14 · 16 · 18 · 24 · 36 · 60 px */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.5rem;
+  --text-xl: 2.25rem;
+  --text-display: clamp(2.5rem, 12cqi, 5.5rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-enter: 260ms;
+  --dur-exit: 140ms;
+  --dur-move: 420ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0d1024;
+    --cell: #161a33;
+    --ink: #eef0f6;
+    --ink-soft: #cdd1e0;
+    --muted: #9097b0;
+    --cell-muted-inverse: #3c4263;
+    --visited: #8a90a8;
+    --rule: #3a4066;
+    --signal: #8a95ff;
+
+    --topic-l: 0.46;
+    --tag-l: 0.8;
+    --tag-c: 0.1;
+
+    color-scheme: dark;
+  }
+}
+
+[data-topic="training"] { --topic-h: 25; }
+[data-topic="inference"] { --topic-h: 75; }
+[data-topic="evals"] { --topic-h: 145; }
+[data-topic="retrieval"] { --topic-h: 195; }
+[data-topic="foundations"] { --topic-h: 245; }
+[data-topic="agents"] { --topic-h: 295; }
+[data-topic="security"] { --topic-h: 345; }
+
+[data-topic] {
+  --topic: oklch(var(--topic-l) var(--topic-c) var(--topic-h));
+  --topic-tag: oklch(var(--tag-l) var(--tag-c) var(--topic-h));
+  --on-topic-muted: color-mix(in oklch, var(--on-topic) 80%, var(--topic));
+}
+
+@media (max-width: 64rem) {
+  :root {
+    --columns: 6;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --columns: 1;
+    --text-lg: 1.3125rem;
+    --text-xl: 1.5rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-size: var(--text-md);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--cell);
+}
+
+/* Page and story grid share column count and gap so every edge lines up. */
+.page {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--rule-width);
+  max-width: 96rem;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-1);
+  left: var(--space-1);
+  z-index: 10;
+  padding: var(--space-1) var(--space-2);
+  background: var(--ink);
+  color: var(--cell);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  translate: 0 -200%;
+}
+
+.skip-link:focus-visible {
+  translate: 0 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: -3px;
+}
+
+/* Topic switch: stories present on both pages glide to their new slot; others wipe in or fade out. */
+::view-transition-group(.reflow) {
+  overflow: clip;
+  animation-duration: var(--dur-move);
+  animation-timing-function: var(--ease-out);
+}
+
+/* Pin snapshots top-left at natural size so cards that change height clip instead of stretching their text. */
+::view-transition-old(.reflow),
+::view-transition-new(.reflow) {
+  width: auto;
+  height: auto;
+  object-fit: none;
+  object-position: left top;
+}
+
+::view-transition-old(.reflow) {
+  animation: var(--dur-exit) ease-in both cell-fade-out;
+}
+
+::view-transition-new(.reflow) {
+  animation: none;
+}
+
+::view-transition-new(.cell-in) {
+  animation: var(--dur-enter) var(--ease-out) var(--dur-exit) both cell-wipe-in;
+}
+
+::view-transition-old(.cell-out) {
+  animation: var(--dur-exit) ease-in both cell-fade-out;
+}
+
+@keyframes cell-wipe-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+@keyframes cell-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cell-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(.reflow) {
+    animation: none;
+  }
+
+  ::view-transition-new(.cell-in) {
+    animation: var(--dur-exit) ease-out both cell-fade-in;
+  }
+}

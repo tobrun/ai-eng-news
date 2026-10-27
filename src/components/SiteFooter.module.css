@@ -1,0 +1,11 @@
+.footer {
+  grid-column: 1 / -1;
+  padding-block: var(--space-4);
+}
+
+.end {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}

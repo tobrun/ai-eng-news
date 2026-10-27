@@ -1,0 +1,35 @@
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--ink);
+  color: var(--cell);
+  box-shadow: 0 0 0 var(--rule-width) var(--rule);
+}
+
+.heading {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.body {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--cell-muted-inverse);
+}
+
+.body a {
+  color: var(--cell);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.body a:focus-visible {
+  outline-color: var(--cell);
+}
