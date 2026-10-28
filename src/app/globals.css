@@ -32,6 +32,8 @@
   --text-lg: 1.5rem;
   --text-xl: 2.25rem;
   --text-display: clamp(2.5rem, 12cqi, 5.5rem);
+  --text-standfirst: 1.0625rem;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-enter: 260ms;
