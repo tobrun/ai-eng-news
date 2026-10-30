@@ -32,9 +32,9 @@
   position: relative;
   isolation: isolate;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  row-gap: var(--space-2);
   padding: var(--card-pad-top) var(--card-pad-inline) var(--space-3);
   background: var(--card-bg);
   color: var(--card-fg);
@@ -49,6 +49,10 @@
   background: var(--accent);
   clip-path: inset(0 100% 0 0);
   transition: clip-path var(--dur-exit) ease-in;
+}
+
+.card:has(.image) {
+  grid-template-rows: auto auto auto auto 1fr;
 }
 
 /* The share image bleeds to the card's edges at the 1.91:1 ratio share images are made for. */
@@ -99,7 +103,7 @@
 }
 
 .bottom {
-  margin-top: auto;
+  align-self: end;
 }
 
 .source {
@@ -108,7 +112,6 @@
 
 .numbers {
   display: flex;
-  margin-inline-start: auto;
   gap: var(--space-2);
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
@@ -151,23 +154,14 @@
   outline: none;
 }
 
-.summary,
-.matters {
+.summary {
+  align-self: start;
   margin: 0;
   max-width: 62ch;
-  font-family: var(--font-serif);
-  font-size: var(--text-standfirst);
-  line-height: 1.45;
+  font-size: var(--text-sm);
+  line-height: 1.5;
   color: var(--card-soft);
   text-wrap: pretty;
-}
-
-/* The lead-in runs on into the line, in the sans of the headline, so it reads as a label without a box. */
-.mattersLead {
-  font-family: var(--font-archivo), system-ui, sans-serif;
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--card-strong);
 }
 
 .brief .summary {
@@ -207,9 +201,9 @@
   letter-spacing: -0.025em;
 }
 
-.lead .summary,
-.lead .matters {
+.lead .summary {
   max-width: 52ch;
+  font-size: var(--text-md);
 }
 
 @media (max-width: 64rem) {
