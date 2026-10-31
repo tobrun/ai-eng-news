@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Article } from "@/lib/types";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import { StoryGrid } from "./StoryGrid";
@@ -22,7 +23,14 @@ export function StoryList({ articles, heading }: StoryListProps) {
       <ol className={styles.list}>
         {articles.map((article) => (
           <li key={article.slug} className={styles.row}>
-            <article className={styles.article}>
+            <article
+              className={styles.article}
+              style={
+                Number.isFinite(article.accentHue)
+                  ? ({ "--hue": article.accentHue } as CSSProperties)
+                  : undefined
+              }
+            >
               <time dateTime={article.postedAt} className={styles.date}>
                 {formatShortDate(article.postedAt)}
               </time>
