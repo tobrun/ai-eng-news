@@ -29,6 +29,9 @@
 }
 
 .article {
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--hue, var(--accent-h)));
+  --on-accent-muted: color-mix(in oklch, var(--on-accent) 80%, var(--accent));
+
   position: relative;
   grid-column: 1 / -1;
   display: grid;

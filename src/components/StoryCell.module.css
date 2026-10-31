@@ -20,6 +20,9 @@
 }
 
 .card {
+  --accent: oklch(var(--accent-l) var(--accent-c) var(--hue, var(--accent-h)));
+  --on-accent-muted: color-mix(in oklch, var(--on-accent) 80%, var(--accent));
+
   --card-bg: var(--cell);
   --card-fg: var(--ink);
   --card-soft: var(--ink-soft);

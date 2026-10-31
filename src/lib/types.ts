@@ -16,4 +16,6 @@ export interface Article {
   prominence: Prominence;
   /** Absolute URL of the post's share image, linked where its author hosts it. */
   image?: string | null;
+  /** Hue (degrees, OKLCH) of the hover fill; null or absent keeps the default accent hue. */
+  accentHue?: number | null;
 }

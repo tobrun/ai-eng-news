@@ -1,4 +1,4 @@
-import { ViewTransition } from "react";
+import { ViewTransition, type CSSProperties } from "react";
 import type { Article } from "@/lib/types";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import { StoryImage } from "./StoryImage";
@@ -13,6 +13,9 @@ export function StoryCell({ article, priority = false }: StoryCellProps) {
   // A brief is one grid module tall and has no room for an image.
   const image = article.prominence === "brief" ? null : article.image;
 
+  const hue = Number.isFinite(article.accentHue) ? article.accentHue : null;
+  const style = hue === null ? undefined : ({ "--hue": hue } as CSSProperties);
+
   return (
     <ViewTransition
       name={`story-${article.slug}`}
@@ -22,7 +25,7 @@ export function StoryCell({ article, priority = false }: StoryCellProps) {
       default="none"
     >
       <li className={`${styles.cell} ${styles[article.prominence]}`}>
-        <article className={styles.card}>
+        <article className={styles.card} style={style}>
           {image && <StoryImage src={image} className={styles.image} priority={priority} />}
           <p className={styles.top}>
             <span className={styles.source}>{article.source}</span>
