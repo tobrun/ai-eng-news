@@ -154,7 +154,7 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-02",
     "prominence": "lead",
-    "image": null,
+    "image": "https://cdn.sanity.io/images/aqo64vfr/production/db2ab64cd58908ef54e38fa18e7cce251374a252-1311x1299.png?rect=0,306,1311,688&w=1200&h=630&fm=jpg&q=80&fit=crop",
     "accentHue": null,
     "editionId": "2026-11-02-3"
   },
