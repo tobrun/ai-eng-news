@@ -60,3 +60,9 @@ test("the token text does not reveal the address in clear, base64 or base64url f
 test("two tokens for the same address differ", () => {
   assert.notEqual(sealed(), sealed());
 });
+
+test("a token whose tag is cut to four bytes is refused", () => {
+  const raw = Buffer.from(sealed(), "base64url");
+  const truncated = raw.subarray(0, raw.length - 12).toString("base64url");
+  assert.equal(openToken(truncated, hoursAfterSealing(1), SECRET), null);
+});

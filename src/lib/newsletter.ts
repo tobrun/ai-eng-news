@@ -8,9 +8,10 @@ const CIPHER = "aes-256-gcm";
 const KEY_BYTES = 32;
 const NONCE_BYTES = 12;
 const TAG_BYTES = 16;
+const GCM_OPTIONS = { authTagLength: TAG_BYTES };
 const TOKEN_KEY_INFO = "ai-engine newsletter confirm token";
 
-export const TOKEN_LIFETIME_MS = 48 * 60 * 60 * 1000;
+const TOKEN_LIFETIME_MS = 48 * 60 * 60 * 1000;
 export const CONFIRM_PATH = "/subscribe/confirm";
 
 const DEFAULT_RESEND_URL = "https://api.resend.com";
@@ -54,7 +55,7 @@ function tokenKey(secret: string): Buffer {
 /** The address and its expiry, AES-256-GCM encrypted under a key derived from `secret`; base64url of nonce, ciphertext and tag. */
 export function sealToken(email: string, expiresAt: Date, secret: string): string {
   const nonce = randomBytes(NONCE_BYTES);
-  const cipher = createCipheriv(CIPHER, tokenKey(secret), nonce);
+  const cipher = createCipheriv(CIPHER, tokenKey(secret), nonce, GCM_OPTIONS);
   const body = JSON.stringify({ email, expiresAt: expiresAt.getTime() });
   const sealed = Buffer.concat([cipher.update(body, "utf8"), cipher.final()]);
   return Buffer.concat([nonce, sealed, cipher.getAuthTag()]).toString("base64url");
@@ -65,7 +66,7 @@ export function openToken(token: string, now: Date, secret: string): string | nu
   try {
     const raw = Buffer.from(token, "base64url");
     if (raw.length <= NONCE_BYTES + TAG_BYTES) return null;
-    const decipher = createDecipheriv(CIPHER, tokenKey(secret), raw.subarray(0, NONCE_BYTES));
+    const decipher = createDecipheriv(CIPHER, tokenKey(secret), raw.subarray(0, NONCE_BYTES), GCM_OPTIONS);
     decipher.setAuthTag(raw.subarray(raw.length - TAG_BYTES));
     const body = Buffer.concat([decipher.update(raw.subarray(NONCE_BYTES, raw.length - TAG_BYTES)), decipher.final()]);
     const { email, expiresAt } = JSON.parse(body.toString("utf8")) as { email: unknown; expiresAt: unknown };
@@ -77,7 +78,7 @@ export function openToken(token: string, now: Date, secret: string): string | nu
 }
 
 /** A Resend call that did not succeed; its message names the call and status, never an address. */
-export class ResendError extends Error {
+class ResendError extends Error {
   readonly status: number;
   readonly body: string;
 
