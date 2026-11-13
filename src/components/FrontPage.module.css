@@ -90,20 +90,6 @@
   min-width: 0;
 }
 
-.empty {
-  margin: 0;
-  padding: var(--space-4) var(--space-3);
-  border-radius: var(--radius-lg);
-  background: var(--card);
-  box-shadow: var(--shadow);
-}
-
-.empty a {
-  color: var(--accent-text);
-  font-weight: 600;
-  text-underline-offset: 0.2em;
-}
-
 @media (max-width: 64rem) {
   .top {
     grid-template-columns: minmax(0, 1fr);

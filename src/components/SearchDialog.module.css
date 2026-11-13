@@ -176,13 +176,6 @@
   margin-inline: 0.5em;
 }
 
-.kicker {
-  color: oklch(var(--kicker-l) var(--kicker-c) var(--topic-h));
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 @media (max-width: 40rem) {
   .dialog {
     margin-top: var(--space-2);
