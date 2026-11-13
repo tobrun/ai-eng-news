@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/FeedPage";
-import { getArticles, getLatestPostedAt } from "@/lib/articles";
+import { site } from "@/lib/site";
 import styles from "./not-found.module.css";
 
 export const metadata: Metadata = {
@@ -9,13 +9,12 @@ export const metadata: Metadata = {
 };
 
 export default function NotFound() {
-  const articles = getArticles();
-
   return (
-    <PageShell storyCount={articles.length} updatedAt={getLatestPostedAt(articles)}>
+    <PageShell>
       <section className={styles.panel} aria-labelledby="not-found-heading">
+        <p className={styles.code}>404</p>
         <h2 id="not-found-heading" className={styles.heading}>
-          This page didn&apos;t make it through the forward pass.
+          This page isn&apos;t on {site.name}.
         </h2>
         <p className={styles.body}>
           The address may be mistyped, or the page doesn&apos;t exist.{" "}

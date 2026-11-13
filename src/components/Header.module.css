@@ -1,0 +1,152 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "brand menu actions";
+  align-items: center;
+  column-gap: var(--space-4);
+  min-height: var(--header-height);
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.brand {
+  grid-area: brand;
+  margin: 0;
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--accent);
+}
+
+.menu {
+  grid-area: menu;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.entries {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-inline: var(--space-2);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 160ms var(--ease-out);
+}
+
+.entry:hover {
+  color: var(--ink);
+}
+
+.entry[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.entry[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  inset: auto var(--space-1) -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent);
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.subscribe {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out);
+}
+
+.subscribe:hover {
+  background: var(--accent-strong);
+}
+
+@media (max-width: 64rem) {
+  .bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 3.5rem 2.75rem;
+    grid-template-areas:
+      "brand actions"
+      "menu menu";
+  }
+
+  .brand {
+    font-size: 1.375rem;
+  }
+
+  .logo {
+    width: 1.875rem;
+    height: 1.875rem;
+  }
+
+  /* The menu keeps one line and scrolls sideways instead of wrapping. */
+  .menu {
+    justify-content: flex-start;
+    margin-inline: calc(-1 * var(--page-gutter));
+    padding-inline: calc(var(--page-gutter) - var(--space-2));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .entries {
+    gap: 0;
+  }
+}

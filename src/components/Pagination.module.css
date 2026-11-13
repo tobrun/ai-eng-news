@@ -1,88 +1,61 @@
 .nav {
-  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: "newer status older";
   align-items: center;
-  gap: var(--rule-width);
-  padding: var(--rule-width);
-  margin-block: var(--space-3);
+  gap: var(--space-2);
+  margin-block: var(--space-4) 0;
 }
 
 .status {
-  grid-column: 4 / -4;
-  grid-row: 1;
+  grid-area: status;
   margin: 0;
-  text-align: center;
-  font-size: var(--text-sm);
   color: var(--muted);
+  font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
+  text-align: center;
 }
 
 .link {
-  grid-row: 1;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 2.75rem;
-  padding: var(--space-1) var(--space-2);
-  background: var(--cell);
-  box-shadow: 0 0 0 var(--rule-width) var(--rule);
+  padding-inline: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-pill);
+  background: var(--card);
   color: var(--ink);
   font-size: var(--text-sm);
   font-weight: 600;
-  font-stretch: 87.5%;
   text-decoration: none;
   transition:
     background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
     color 160ms var(--ease-out);
 }
 
 .link:hover {
-  background: var(--ink);
-  color: var(--cell);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .newer {
-  grid-column: 1 / span 3;
+  grid-area: newer;
+  justify-self: start;
 }
 
 .older {
-  grid-column: -4 / -1;
-}
-
-@media (max-width: 64rem) {
-  .status {
-    grid-column: 3 / -3;
-  }
-
-  .newer {
-    grid-column: 1 / span 2;
-  }
-
-  .older {
-    grid-column: -3 / -1;
-  }
+  grid-area: older;
+  justify-self: end;
 }
 
 @media (max-width: 40rem) {
   .nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .status {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-
-  .link {
-    grid-row: 2;
-  }
-
-  .newer {
-    grid-column: 1;
-  }
-
-  .older {
-    grid-column: 2;
+    grid-template-areas:
+      "status status"
+      "newer older";
   }
 }

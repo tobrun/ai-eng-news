@@ -1,78 +1,114 @@
 :root {
-  --paper: #dce0e3;
-  --cell: #f4f5f6;
-  --ink: #161a33;
-  --ink-soft: #2e3350;
-  --muted: #50576a;
-  --cell-muted-inverse: #b9bfd6;
-  --visited: #6b7183;
-  --rule: #a9b0b8;
-  --signal: #2433d6;
-  --on-accent: #f7f8fa;
+  --paper: #f6f7fb;
+  --card: #ffffff;
+  --card-tint: #eceef6;
+  --ink: #10132a;
+  --ink-soft: #3a3f58;
+  --muted: #5d6279;
+  --visited: #6b6585;
+  --rule: #dfe2ec;
+  --signal: #5b3df5;
 
-  --accent-l: 0.44;
-  --accent-c: 0.12;
-  --accent-h: 245;
-  --accent: oklch(var(--accent-l) var(--accent-c) var(--accent-h));
-  --on-accent-muted: color-mix(in oklch, var(--on-accent) 80%, var(--accent));
+  --brand-h: 285;
+  --accent: #5b3df5;
+  --accent-strong: #4a2ee0;
+  --accent-text: #4b2fe6;
+  --on-accent: #ffffff;
 
-  --rule-width: 1px;
-  --columns: 12;
-  --page-gutter: clamp(1rem, 2.5vw, 2.5rem);
+  /* The hero is always dark: its text sits on this ink or on the scrim over the image. */
+  --hero-ink: #0c0f22;
+  --on-hero: #ffffff;
+  --on-hero-soft: #d5d8e8;
+
+  /* Kicker colour: OKLCH lightness per background, so only the topic hue changes between topics. */
+  --kicker-l: 0.5;
+  --kicker-l-hero: 0.82;
+  --kicker-c: 0.13;
+
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgb(16 19 42 / 0.05), 0 4px 18px rgb(16 19 42 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(16 19 42 / 0.06), 0 12px 32px rgb(16 19 42 / 0.12);
+
+  --page-max: 96rem;
+  --page-gutter: clamp(1rem, 2vw, 2rem);
+  --header-height: 4rem;
 
   --space-1: 0.5rem;
   --space-2: 0.75rem;
   --space-3: 1.25rem;
   --space-4: 2rem;
+  --space-5: 3rem;
 
-  /* Classical scale: 12 · 14 · 16 · 18 · 24 · 36 · 60 px */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-md: 1rem;
-  --text-lg: 1.5rem;
-  --text-xl: 2.25rem;
-  --text-display: clamp(2.5rem, 12cqi, 5.5rem);
-  --text-standfirst: 1.0625rem;
-  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-hero: clamp(1.875rem, 3vw, 3rem);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-enter: 260ms;
-  --dur-exit: 140ms;
-  --dur-move: 420ms;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #0d1024;
-    --cell: #161a33;
-    --ink: #eef0f6;
-    --ink-soft: #cdd1e0;
-    --muted: #9097b0;
-    --cell-muted-inverse: #3c4263;
-    --visited: #8a90a8;
-    --rule: #3a4066;
-    --signal: #8a95ff;
+    --paper: #0b0d1a;
+    --card: #151830;
+    --card-tint: #1b1f3b;
+    --ink: #eef0f8;
+    --ink-soft: #c9cde0;
+    --muted: #9aa0ba;
+    --visited: #a69ec4;
+    --rule: #2a2f4e;
+    --signal: #a593ff;
 
-    --accent-l: 0.46;
+    --accent-text: #a593ff;
+
+    --kicker-l: 0.78;
+
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 18px rgb(0 0 0 / 0.25);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.45);
 
     color-scheme: dark;
   }
 }
 
+/* Under 64rem the menu moves to a second header row. */
 @media (max-width: 64rem) {
   :root {
-    --columns: 6;
+    --header-height: 6.25rem;
   }
 }
 
-@media (max-width: 40rem) {
-  :root {
-    --columns: 1;
-    --text-lg: 1.3125rem;
-    --text-xl: 1.5rem;
-  }
+[data-topic="training"] {
+  --topic-h: 25;
+}
+
+[data-topic="inference"] {
+  --topic-h: 75;
+}
+
+[data-topic="evals"] {
+  --topic-h: 145;
+}
+
+[data-topic="retrieval"] {
+  --topic-h: 195;
+}
+
+[data-topic="foundations"] {
+  --topic-h: 245;
+}
+
+[data-topic="agents"] {
+  --topic-h: 295;
+}
+
+[data-topic="security"] {
+  --topic-h: 345;
 }
 
 *,
@@ -83,35 +119,28 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-padding-top: var(--header-height);
 }
 
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   font-size: var(--text-md);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--cell);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-/* Page and story grid share column count and gap so every edge lines up. */
 .page {
-  display: grid;
-  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-  column-gap: var(--rule-width);
-  max-width: 96rem;
+  max-width: var(--page-max);
   margin-inline: auto;
   padding-inline: var(--page-gutter);
-}
-
-.full {
-  grid-column: 1 / -1;
 }
 
 .sr-only {
@@ -129,10 +158,11 @@ body {
   position: absolute;
   top: var(--space-1);
   left: var(--space-1);
-  z-index: 10;
+  z-index: 30;
   padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius);
   background: var(--ink);
-  color: var(--cell);
+  color: var(--paper);
   font-size: var(--text-sm);
   font-weight: 600;
   translate: 0 -200%;
@@ -144,66 +174,33 @@ body {
 
 :focus-visible {
   outline: 3px solid var(--signal);
-  outline-offset: -3px;
+  outline-offset: 2px;
 }
 
-/* Page switch: stories present on both pages glide to their new slot; others wipe in or fade out. */
-::view-transition-group(.reflow) {
-  overflow: clip;
-  animation-duration: var(--dur-move);
-  animation-timing-function: var(--ease-out);
+/* Running text of plain pages such as the privacy page. */
+.prose {
+  max-width: 44rem;
+  padding-block: var(--space-4) var(--space-5);
 }
 
-/* Pin snapshots top-left at natural size so cards that change height clip instead of stretching their text. */
-::view-transition-old(.reflow),
-::view-transition-new(.reflow) {
-  width: auto;
-  height: auto;
-  object-fit: none;
-  object-position: left top;
+.prose h2 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--text-xl);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
-::view-transition-old(.reflow) {
-  animation: var(--dur-exit) ease-in both cell-fade-out;
+.prose h3 {
+  margin: var(--space-4) 0 var(--space-1);
+  font-size: var(--text-lg);
 }
 
-::view-transition-new(.reflow) {
-  animation: none;
+.prose p {
+  margin: 0 0 var(--space-2);
+  color: var(--ink-soft);
 }
 
-::view-transition-new(.cell-in) {
-  animation: var(--dur-enter) var(--ease-out) var(--dur-exit) both cell-wipe-in;
-}
-
-::view-transition-old(.cell-out) {
-  animation: var(--dur-exit) ease-in both cell-fade-out;
-}
-
-@keyframes cell-wipe-in {
-  from {
-    opacity: 0;
-    clip-path: inset(0 100% 0 0);
-  }
-}
-
-@keyframes cell-fade-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes cell-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(.reflow) {
-    animation: none;
-  }
-
-  ::view-transition-new(.cell-in) {
-    animation: var(--dur-exit) ease-out both cell-fade-in;
-  }
+.prose a {
+  color: var(--accent-text);
+  text-underline-offset: 0.2em;
 }

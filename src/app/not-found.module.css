@@ -1,35 +1,45 @@
 .panel {
   display: grid;
   gap: var(--space-3);
-  padding: var(--space-4);
-  background: var(--ink);
-  color: var(--cell);
-  box-shadow: 0 0 0 var(--rule-width) var(--rule);
+  margin-top: var(--space-3);
+  padding: clamp(1.5rem, 5vw, 4rem);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(80% 120% at 90% 0%, oklch(0.55 0.2 var(--brand-h) / 0.45), transparent 60%),
+    var(--hero-ink);
+  color: var(--on-hero);
+}
+
+.code {
+  margin: 0;
+  color: oklch(var(--kicker-l-hero) var(--kicker-c) var(--brand-h));
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .heading {
   margin: 0;
   max-width: 18ch;
-  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-size: clamp(2rem, 5vw, 3.75rem);
   font-weight: 800;
-  font-stretch: 75%;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
 .body {
   margin: 0;
   max-width: 52ch;
-  color: var(--cell-muted-inverse);
+  color: var(--on-hero-soft);
 }
 
 .body a {
-  color: var(--cell);
+  color: var(--on-hero);
   font-weight: 600;
   text-underline-offset: 0.2em;
 }
 
 .body a:focus-visible {
-  outline-color: var(--cell);
+  outline-color: var(--on-hero);
 }
