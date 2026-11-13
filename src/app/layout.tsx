@@ -1,16 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Newsreader } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import { ClickTracker } from "@/components/ClickTracker";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-  axes: ["wdth"],
-});
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+const sans = Plus_Jakarta_Sans({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -20,19 +16,27 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#dce0e3" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d1024" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f7fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0d1a" },
   ],
 };
 
+// Off Vercel the analytics script 404s and logs a console error, so it is only added there.
+const onVercel = Boolean(process.env.VERCEL);
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${archivo.variable} ${newsreader.variable}`}>
-      <body>{children}</body>
+    <html lang="en" className={sans.variable}>
+      <body>
+        {children}
+        <ClickTracker />
+        {onVercel && <SiteAnalytics />}
+      </body>
     </html>
   );
 }

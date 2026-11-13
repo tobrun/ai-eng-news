@@ -1,0 +1,138 @@
+.front {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-3);
+}
+
+/* Hero left, side cards stacked right; a lone hero takes the full width. */
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.top > :only-child {
+  grid-column: 1 / -1;
+}
+
+.sideColumn {
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+/* Main column and rail side by side only when both exist; either alone takes the full width. */
+.columns {
+  display: grid;
+  gap: var(--space-5) var(--space-4);
+}
+
+.columns:has(> .main + .rail) {
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 25rem);
+}
+
+.main {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.rail {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+}
+
+.columns > .rail:only-child {
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.sectionHead::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.newsGrid,
+.depthGrid {
+  display: grid;
+  gap: var(--space-4) var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.newsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.depthGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.slot {
+  display: flex;
+  min-width: 0;
+}
+
+.empty {
+  margin: 0;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.empty a {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 64rem) {
+  .top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sideColumn {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+
+  .columns:has(> .main + .rail) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 56rem) {
+  .newsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .front,
+  .main {
+    gap: var(--space-4);
+  }
+
+  .newsGrid,
+  .depthGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+}

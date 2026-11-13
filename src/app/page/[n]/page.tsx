@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { FeedPage } from "@/components/FeedPage";
-import {
-  getArticles,
-  getLatestPostedAt,
-  getOlderArticles,
-  isPageNumber,
-  pageCount,
-  pageOf,
-  pageTitle,
-} from "@/lib/articles";
+import { getOlderArticles, isPageNumber, pageCount, pageOf, pageTitle } from "@/lib/articles";
 
 // Cache Components reject an empty list, so a lone placeholder stands in until a second page exists; the page 404s it.
 export function generateStaticParams() {
@@ -29,15 +21,5 @@ export default async function OlderPage({ params }: PageProps<"/page/[n]">) {
   const count = pageCount(older);
   if (!isPageNumber(n, count)) notFound();
 
-  const articles = getArticles();
-  return (
-    <FeedPage
-      rows={pageOf(older, Number(n))}
-      page={Number(n)}
-      pageCount={count}
-      basePath="/"
-      totalCount={articles.length}
-      updatedAt={getLatestPostedAt(articles)}
-    />
-  );
+  return <FeedPage rows={pageOf(older, Number(n))} page={Number(n)} pageCount={count} basePath="/" />;
 }
