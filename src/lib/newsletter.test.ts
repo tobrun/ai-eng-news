@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { normaliseEmail, openToken, sealToken } from "./newsletter.ts";
+import { errorMessage, normaliseEmail, openToken, sealToken, seeOther } from "./newsletter.ts";
 
 const SECRET = "test-secret-one";
 const OTHER_SECRET = "test-secret-two";
@@ -65,4 +65,42 @@ test("a token whose tag is cut to four bytes is refused", () => {
   const raw = Buffer.from(sealed(), "base64url");
   const truncated = raw.subarray(0, raw.length - 12).toString("base64url");
   assert.equal(openToken(truncated, hoursAfterSealing(1), SECRET), null);
+});
+
+test("an address of exactly 254 characters is kept", () => {
+  const longest = `${"x".repeat(254 - "@example.com".length)}@example.com`;
+  assert.equal(normaliseEmail(longest), longest);
+});
+
+test("text before or after an address shape is refused", () => {
+  assert.equal(normaliseEmail("two words@b.co"), null);
+  assert.equal(normaliseEmail("a@b.co trailing"), null);
+});
+
+test("a token sealed by an earlier deploy still opens, so links in flight survive a release", () => {
+  const earlier = "XE-SkCcCfoL_o12ekRuISwakUKhhnsxrf4yLiHlvqbZOxGWG3-Jz7RKrfULolX_LBAN8fsaGqd7nG5xI5VWxG_WqUmS1aQqN";
+  assert.equal(openToken(earlier, hoursAfterSealing(1), SECRET), ADDRESS);
+});
+
+test("a token opened at its exact expiry has expired", () => {
+  assert.equal(openToken(sealed(), EXPIRES_AT, SECRET), null);
+});
+
+test("a token whose address is not text, or whose expiry is not a number, is refused", () => {
+  const farFuture = { getTime: () => "99999999999999" } as unknown as Date;
+  const numberAddress = sealToken(42 as unknown as string, EXPIRES_AT, SECRET);
+  const textExpiry = sealToken(ADDRESS, farFuture, SECRET);
+  assert.equal(openToken(numberAddress, hoursAfterSealing(1), SECRET), null);
+  assert.equal(openToken(textExpiry, hoursAfterSealing(1), SECRET), null);
+});
+
+test("see-other answers 303 with a relative Location", () => {
+  const response = seeOther("/subscribe/check");
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get("Location"), "/subscribe/check");
+});
+
+test("an error's message is logged, and a thrown non-error is an unknown error", () => {
+  assert.equal(errorMessage(new Error("boom")), "boom");
+  assert.equal(errorMessage("boom"), "unknown error");
 });

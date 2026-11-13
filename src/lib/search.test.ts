@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { matches, type SearchRecord } from "./search.ts";
+import { matches, type SearchRecord, toRecords } from "./search.ts";
+import type { Article } from "./types.ts";
 
 function record(slug: string, fields: Partial<SearchRecord> = {}): SearchRecord {
   return {
@@ -65,4 +66,48 @@ test("a topic name finds the stories carrying that topic", () => {
   ];
 
   assert.deepEqual(slugsOf(matches(records, "retrieval")), ["ret-1", "ret-2"]);
+});
+
+test("a query of exactly two characters searches", () => {
+  const records = [record("ai", { title: "AI at work" })];
+
+  assert.deepEqual(slugsOf(matches(records, "ai")), ["ai"]);
+});
+
+test("spaces around a one-letter query do not count toward its length", () => {
+  const records = [record("a-title", { title: "A study of attention" })];
+
+  assert.deepEqual(matches(records, " a "), []);
+});
+
+test("a query word does not match across the end of one field and the start of the next", () => {
+  const records = [record("split", { title: "Going deep", summary: "Learning to plan." })];
+
+  assert.deepEqual(matches(records, "deeplearning"), []);
+});
+
+test("an article becomes a search record holding only the searched and linked fields, with a missing topic as null", () => {
+  const article: Article = {
+    slug: "s",
+    title: "T",
+    summary: "S",
+    url: "https://example.com/s",
+    source: "Src",
+    author: "Au",
+    readMinutes: 4,
+    postedAt: "2026-11-13",
+    editionId: "2026-11-13",
+    prominence: "brief",
+  };
+
+  assert.deepEqual(toRecords([article, { ...article, slug: "t", topic: "agents" }]), [
+    { slug: "s", title: "T", summary: "S", source: "Src", author: "Au", topic: null, url: "https://example.com/s", postedAt: "2026-11-13" },
+    { slug: "t", title: "T", summary: "S", source: "Src", author: "Au", topic: "agents", url: "https://example.com/s", postedAt: "2026-11-13" },
+  ]);
+});
+
+test("a story without a topic is found by none of the words outside its own fields", () => {
+  const records = [record("plain", { title: "Notes from the field" })];
+
+  assert.deepEqual(matches(records, "here"), []);
 });
