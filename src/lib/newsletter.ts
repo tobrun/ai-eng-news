@@ -48,6 +48,11 @@ export function seeOther(path: string): Response {
   return new Response(null, { status: 303, headers: { Location: path } });
 }
 
+/** A thrown value's message for a log line. */
+export function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : "unknown error";
+}
+
 function tokenKey(secret: string): Buffer {
   return Buffer.from(hkdfSync("sha256", secret, "", TOKEN_KEY_INFO, KEY_BYTES));
 }
