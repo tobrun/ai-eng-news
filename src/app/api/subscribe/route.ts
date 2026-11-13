@@ -1,4 +1,4 @@
-import { newsletterEnabled, normaliseEmail, seeOther, sendConfirmation } from "@/lib/newsletter";
+import { errorMessage, newsletterEnabled, normaliseEmail, seeOther, sendConfirmation } from "@/lib/newsletter";
 import { clientIp, hashedId, overLimit, redisOrNull, sameOrigin } from "@/lib/redis";
 
 const SENT_PATH = "/subscribe/sent";
@@ -34,22 +34,31 @@ async function limited(request: Request, email: string): Promise<boolean> {
   return false;
 }
 
+/** True for a bot filling the hidden field or a post from another site. */
+function suspicious(request: Request, form: FormData | null): boolean {
+  return formText(form, HONEYPOT_FIELD) !== "" || !sameOrigin(request);
+}
+
+/** Sends the confirmation unless a limit is passed; a failed send is only logged. */
+async function sendUnlessLimited(request: Request, email: string): Promise<void> {
+  if (await limited(request, email)) return;
+  try {
+    await sendConfirmation(email);
+  } catch (error) {
+    console.error(`confirmation email failed: ${errorMessage(error)}`);
+  }
+}
+
 /** Every outcome but a malformed address answers the same "check your inbox" page, so the form reveals nothing. */
 export async function POST(request: Request): Promise<Response> {
   if (!newsletterEnabled()) return new Response(null, { status: 404 });
 
   const form = await request.formData().catch(() => null);
-  if (formText(form, HONEYPOT_FIELD) !== "" || !sameOrigin(request)) return seeOther(SENT_PATH);
+  if (suspicious(request, form)) return seeOther(SENT_PATH);
 
   const email = normaliseEmail(formText(form, "email"));
   if (!email) return seeOther(INVALID_PATH);
 
-  if (await limited(request, email)) return seeOther(SENT_PATH);
-
-  try {
-    await sendConfirmation(email);
-  } catch (error) {
-    console.error(`confirmation email failed: ${error instanceof Error ? error.message : "unknown error"}`);
-  }
+  await sendUnlessLimited(request, email);
   return seeOther(SENT_PATH);
 }

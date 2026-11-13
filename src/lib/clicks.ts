@@ -25,19 +25,30 @@ function clicksKey(day: string): string {
   return `${keyPrefix()}:clicks:${day}`;
 }
 
-/**
- * Sums the daily counts of known slugs and returns the best five, most clicks first.
- * Empty when fewer than three stories have clicks or those clicks total under ten.
- */
-export function mergeCounts(days: DayCounts[], known: ReadonlySet<string>): SlugCount[] {
+/** Positive clicks per known slug, summed over all days. */
+function knownTotals(days: DayCounts[], known: ReadonlySet<string>): Map<string, number> {
   const totals = new Map<string, number>();
   for (const day of days) {
     for (const [slug, clicks] of Object.entries(day)) {
       if (known.has(slug) && clicks > 0) totals.set(slug, (totals.get(slug) ?? 0) + clicks);
     }
   }
+  return totals;
+}
+
+/** True when at least three stories have clicks and those clicks total ten or more. */
+function enoughClicks(totals: Map<string, number>): boolean {
   const sum = [...totals.values()].reduce((total, clicks) => total + clicks, 0);
-  if (totals.size < MIN_STORIES || sum < MIN_TOTAL) return [];
+  return totals.size >= MIN_STORIES && sum >= MIN_TOTAL;
+}
+
+/**
+ * Sums the daily counts of known slugs and returns the best five, most clicks first.
+ * Empty when fewer than three stories have clicks or those clicks total under ten.
+ */
+export function mergeCounts(days: DayCounts[], known: ReadonlySet<string>): SlugCount[] {
+  const totals = knownTotals(days, known);
+  if (!enoughClicks(totals)) return [];
   return [...totals]
     .map(([slug, clicks]) => ({ slug, clicks }))
     .sort((a, b) => b.clicks - a.clicks || a.slug.localeCompare(b.slug))

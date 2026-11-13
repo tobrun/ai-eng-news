@@ -33,12 +33,42 @@ function ArrowIcon() {
   );
 }
 
+function ReadMore() {
+  return (
+    <>
+      {" "}
+      <span className={styles.readMore}>
+        Read more
+        <ArrowIcon />
+      </span>
+    </>
+  );
+}
+
+function CardMeta({ article }: { article: Article }) {
+  return (
+    <p className={styles.meta}>
+      <span className={styles.source}>{article.source}</span>
+      <span className={styles.numbers}>
+        <span className={styles.readTime}>
+          <ClockIcon />
+          {formatReadTime(article.readMinutes)}
+        </span>
+        <time dateTime={article.postedAt}>{formatShortDate(article.postedAt)}</time>
+      </span>
+    </p>
+  );
+}
+
+function accentTint(accentHue: Article["accentHue"]): CSSProperties | undefined {
+  return accentHue == null ? undefined : ({ "--hue": accentHue } as CSSProperties);
+}
+
 export function StoryCard({ article, variant, priority = false }: StoryCardProps) {
   const topic = topicOf(article.topic);
-  const tint = article.accentHue == null ? undefined : ({ "--hue": article.accentHue } as CSSProperties);
 
   return (
-    <article className={`${styles.card} ${styles[variant]}`} data-topic={topic?.slug} style={tint}>
+    <article className={`${styles.card} ${styles[variant]}`} data-topic={topic?.slug} style={accentTint(article.accentHue)}>
       <StoryImage
         src={article.image}
         className={styles.media}
@@ -52,28 +82,11 @@ export function StoryCard({ article, variant, priority = false }: StoryCardProps
           {/* The link's ::after stretches over the whole card so the card stays one click target. */}
           <a href={article.url} rel="noopener noreferrer" data-slug={article.slug} className={styles.link}>
             {article.title}
-            {variant === "hero" && (
-              <>
-                {" "}
-                <span className={styles.readMore}>
-                  Read more
-                  <ArrowIcon />
-                </span>
-              </>
-            )}
+            {variant === "hero" && <ReadMore />}
           </a>
         </h3>
         {WITH_SUMMARY.has(variant) && <p className={styles.summary}>{article.summary}</p>}
-        <p className={styles.meta}>
-          <span className={styles.source}>{article.source}</span>
-          <span className={styles.numbers}>
-            <span className={styles.readTime}>
-              <ClockIcon />
-              {formatReadTime(article.readMinutes)}
-            </span>
-            <time dateTime={article.postedAt}>{formatShortDate(article.postedAt)}</time>
-          </span>
-        </p>
+        <CardMeta article={article} />
       </div>
     </article>
   );

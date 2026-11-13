@@ -43,16 +43,27 @@ interface FeedPageProps {
   basePath: string;
 }
 
-export function FeedPage({ frontPage, rows, page, pageCount, basePath }: FeedPageProps) {
+function isEmptyFeed(frontPage: Article[] | undefined, rows: Article[]): boolean {
+  return !frontPage?.length && rows.length === 0;
+}
+
+/** The end-of-feed note, shown on the last page of a feed that has stories. */
+function feedFooter({ frontPage, rows, page, pageCount }: FeedPageProps): string | undefined {
+  return !isEmptyFeed(frontPage, rows) && page === pageCount ? END_OF_FEED : undefined;
+}
+
+function listHeading(page: number): string {
+  return page > 1 ? pageTitle(page, EARLIER_HEADING) : EARLIER_HEADING;
+}
+
+export function FeedPage(props: FeedPageProps) {
+  const { frontPage, rows, page, pageCount, basePath } = props;
   const showList = rows.length > 0 || !frontPage;
-  const isEmpty = !frontPage?.length && rows.length === 0;
 
   return (
-    <PageShell current="news" footer={!isEmpty && page === pageCount ? END_OF_FEED : undefined}>
+    <PageShell current="news" footer={feedFooter(props)}>
       {frontPage && <FrontPage edition={frontPage} />}
-      {showList && (
-        <StoryList articles={rows} heading={page > 1 ? pageTitle(page, EARLIER_HEADING) : EARLIER_HEADING} />
-      )}
+      {showList && <StoryList articles={rows} heading={listHeading(page)} />}
       <Pagination basePath={basePath} page={page} pageCount={pageCount} />
     </PageShell>
   );
