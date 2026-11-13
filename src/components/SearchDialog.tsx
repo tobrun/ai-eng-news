@@ -105,7 +105,7 @@ export function SearchDialog() {
                       {record.title}
                     </a>
                     <p className={styles.meta}>
-                      {topic && <span className={styles.kicker}>{topic.name}</span>}
+                      {topic && <span className="topic-kicker">{topic.name}</span>}
                       <span>{record.source}</span>
                       <time dateTime={record.postedAt}>{formatShortDate(record.postedAt)}</time>
                     </p>

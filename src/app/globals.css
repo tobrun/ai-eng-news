@@ -177,6 +177,29 @@ body {
   outline-offset: 2px;
 }
 
+/* A list row's topic name, tinted by the row's `data-topic`. */
+.topic-kicker {
+  color: oklch(var(--kicker-l) var(--kicker-c) var(--topic-h));
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* What a story list with no stories says. */
+.empty-note {
+  margin: 0;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.empty-note a {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
 /* Running text of plain pages such as the privacy page. */
 .prose {
   max-width: 44rem;

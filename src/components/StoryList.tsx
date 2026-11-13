@@ -4,14 +4,10 @@ import { topicOf } from "@/lib/topics";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import styles from "./StoryList.module.css";
 
-interface EmptyNoteProps {
-  className?: string;
-}
-
 /** What a list with no stories says, with a way back to the home page. */
-export function EmptyNote({ className }: EmptyNoteProps) {
+export function EmptyNote() {
   return (
-    <p className={className}>
+    <p className="empty-note">
       No summaries here yet. <Link href="/">See all summaries</Link>
     </p>
   );
@@ -29,7 +25,7 @@ export function StoryList({ articles, heading }: StoryListProps) {
         {heading}
       </h2>
       {articles.length === 0 ? (
-        <EmptyNote className={styles.empty} />
+        <EmptyNote />
       ) : (
         <ol className={styles.list}>
           {articles.map((article) => {
@@ -47,7 +43,7 @@ export function StoryList({ articles, heading }: StoryListProps) {
                     </a>
                   </h3>
                   <p className={styles.meta}>
-                    {topic && <span className={styles.kicker}>{topic.name}</span>}
+                    {topic && <span className="topic-kicker">{topic.name}</span>}
                     <span>{article.source}</span>
                     <span>{formatReadTime(article.readMinutes)}</span>
                   </p>

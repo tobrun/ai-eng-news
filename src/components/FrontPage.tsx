@@ -66,7 +66,7 @@ export async function FrontPage({ edition }: FrontPageProps) {
           )}
         </div>
       ) : (
-        <EmptyNote className={styles.empty} />
+        <EmptyNote />
       )}
       {(hasMain || hasRail) && (
         <div className={styles.columns}>
