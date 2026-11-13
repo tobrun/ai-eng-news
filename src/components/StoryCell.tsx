@@ -12,8 +12,6 @@ interface StoryCellProps {
 export function StoryCell({ article, priority = false }: StoryCellProps) {
   // A brief is one grid module tall and has no room for an image.
   const image = article.prominence === "brief" ? null : article.image;
-  // Only leads and features have room for the line.
-  const matters = article.prominence === "brief" ? undefined : article.matters;
   // Feeds that publish under the source's own name would print it twice.
   const byline = article.author === article.source ? null : article.author;
 
@@ -38,11 +36,6 @@ export function StoryCell({ article, priority = false }: StoryCellProps) {
             </a>
           </h3>
           <p className={styles.summary}>{article.summary}</p>
-          {matters && (
-            <p className={styles.matters}>
-              <span className={styles.mattersLead}>Why it matters</span> {matters}
-            </p>
-          )}
           <p className={styles.bottom}>
             {byline && <span>{byline}</span>}
             <span className={styles.numbers}>

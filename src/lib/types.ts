@@ -1,4 +1,14 @@
-/** How many grid modules a story occupies: lead 6×2, feature 3×2, brief 3×1. */
+/** The editor's seven topics; a story carries one of these slugs or none. */
+export type TopicSlug =
+  | "agents"
+  | "evals"
+  | "retrieval"
+  | "inference"
+  | "training"
+  | "security"
+  | "foundations";
+
+/** The editor's size for a story. Position, not prominence, picks the hero and side cards; the rest split by it. */
 export type Prominence = "lead" | "feature" | "brief";
 
 export interface Article {
@@ -16,6 +26,8 @@ export interface Article {
   prominence: Prominence;
   /** Absolute URL of the post's share image, linked where its author hosts it. */
   image?: string | null;
-  /** One line on why an AI engineer should care; leads and features only. */
-  matters?: string;
+  /** Null or absent: no kicker and on no topic page. */
+  topic?: TopicSlug | null;
+  /** Hue (degrees, OKLCH) for the story's tint; null or absent falls back to its topic's hue. */
+  accentHue?: number | null;
 }

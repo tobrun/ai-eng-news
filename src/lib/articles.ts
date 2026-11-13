@@ -1,10 +1,23 @@
 import { articles } from "@/data/articles";
-import type { Article } from "./types";
+import { topics, type Topic } from "./topics";
+import type { Article, TopicSlug } from "./types";
+
+export { frontRegions } from "./regions";
 
 const byNewest = (a: Article, b: Article) => b.postedAt.localeCompare(a.postedAt);
 
 export function getArticles(): Article[] {
   return [...articles].sort(byNewest);
+}
+
+export function getArticlesByTopic(slug: TopicSlug): Article[] {
+  return getArticles().filter((article) => article.topic === slug);
+}
+
+/** The topics, in menu order, that at least one published story carries. */
+export function topicsWithStories(): Topic[] {
+  const used = new Set(articles.map((article) => article.topic));
+  return topics.filter((topic) => used.has(topic.slug));
 }
 
 export function getLatestPostedAt(list: Article[]): string | undefined {
