@@ -46,3 +46,19 @@ test("eight clicked stories: only the best five are trending", () => {
 test("the last second of a UTC day still belongs to that day", () => {
   assert.equal(dayKey(new Date("2026-11-13T23:59:59Z")), "2026-11-13");
 });
+
+test("a story with zero or negative clicks is not trending", () => {
+  const trending = mergeCounts([{ a: 5, b: 4, c: 3, none: 0, negative: -2 }], known("a", "b", "c", "none", "negative"));
+
+  assert.deepEqual(
+    trending.map((row) => row.slug),
+    ["a", "b", "c"],
+  );
+});
+
+test("three stories with exactly ten clicks in total show a Trending list", () => {
+  assert.deepEqual(
+    mergeCounts([{ a: 5, b: 3, c: 2 }], known("a", "b", "c")).map((row) => row.slug),
+    ["a", "b", "c"],
+  );
+});
