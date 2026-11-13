@@ -1,0 +1,90 @@
+.box {
+  scroll-margin-top: calc(var(--header-height) + var(--space-3));
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 100% 0%, rgb(91 61 245 / 0.35), transparent 60%),
+    var(--hero-ink);
+  color: var(--on-hero);
+  box-shadow: var(--shadow);
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--accent);
+}
+
+.heading {
+  margin: var(--space-1) 0;
+  font-size: var(--text-lg);
+  line-height: 1.25;
+}
+
+.text {
+  margin: 0 0 var(--space-3);
+  color: var(--on-hero-soft);
+  font-size: var(--text-sm);
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.input {
+  flex: 1 1 12rem;
+  min-height: 2.75rem;
+  padding-inline: var(--space-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.input:focus-visible,
+.button:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.button {
+  min-height: 2.75rem;
+  padding-inline: var(--space-3);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out);
+}
+
+.button:hover {
+  background: var(--accent-strong);
+}
+
+/* Off-screen rather than display:none, so form-filling bots still see the field. */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.note {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  opacity: 0.8;
+}
+
+.note a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
