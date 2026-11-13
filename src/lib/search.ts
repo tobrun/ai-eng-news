@@ -14,7 +14,7 @@ export interface SearchRecord {
   postedAt: string;
 }
 
-export const MAX_RESULTS = 20;
+const MAX_RESULTS = 20;
 export const MIN_QUERY_LENGTH = 2;
 
 export function toRecords(articles: readonly Article[]): SearchRecord[] {

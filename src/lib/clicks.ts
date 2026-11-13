@@ -9,9 +9,9 @@ const MIN_STORIES = 3;
 const MIN_TOTAL = 10;
 
 /** Clicks per slug on one UTC day. */
-export type DayCounts = Record<string, number>;
+type DayCounts = Record<string, number>;
 
-export interface SlugCount {
+interface SlugCount {
   slug: string;
   clicks: number;
 }

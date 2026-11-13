@@ -20,10 +20,6 @@ export function topicsWithStories(): Topic[] {
   return topics.filter((topic) => used.has(topic.slug));
 }
 
-export function getLatestPostedAt(list: Article[]): string | undefined {
-  return list.map((article) => article.postedAt).sort().at(-1);
-}
-
 export const PAGE_SIZE = 50;
 
 /** The newest edition: every story sharing the first row's edition. */
