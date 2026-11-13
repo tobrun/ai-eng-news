@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/page/1", destination: "/", permanent: true },
+      { source: "/topics/:topic/page/1", destination: "/topics/:topic", permanent: true },
     ];
   },
 };
