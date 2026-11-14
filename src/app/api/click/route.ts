@@ -26,6 +26,7 @@ async function countClick(redis: Redis, slug: string, ip: string): Promise<void>
     await recordClick(redis, slug, visitor, new Date());
   } catch {
     // A store outage loses this click; the reader has their answer already.
+    console.error("click not counted: store error");
   }
 }
 
