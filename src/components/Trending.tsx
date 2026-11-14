@@ -25,6 +25,7 @@ export async function getTrending(): Promise<Article[]> {
     cacheLife("hours");
     return top.flatMap(({ slug }) => bySlug.get(slug) ?? []);
   } catch {
+    console.error("trending unavailable: store error");
     cacheLife("minutes");
     return [];
   }
