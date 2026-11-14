@@ -45,6 +45,12 @@ export default function PrivacyPage() {
               sends it, once you confirm it from the email we send. Every newsletter has an unsubscribe link, and
               unsubscribing stops all further email.
             </p>
+            <p>
+              Before you confirm, your email address is sent to Resend so it can deliver the confirmation email, and
+              Resend keeps that email in its sending logs. To limit confirmation emails, the site keeps a keyed hash
+              of your email address for one day. The address itself is not stored by the site, and the hash cannot
+              be turned back into it.
+            </p>
           </>
         )}
       </article>
