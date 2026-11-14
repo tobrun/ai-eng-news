@@ -33,7 +33,10 @@ export function hashedId(kind: string, value: string): string {
   return createHmac("sha256", secret).update(`${kind}:${value}`).digest("hex");
 }
 
-/** Counts one use of `name` by `id` in a window of `seconds`; true past `max`, or when the store fails. */
+/**
+ * Counts one use of `name` by `id` in a window of `seconds`; true past `max`, or when the store fails.
+ * The window key is created with its expiry before the count, in one round trip, so it never lives without one.
+ */
 export async function overLimit(
   redis: Redis,
   name: string,
@@ -43,10 +46,10 @@ export async function overLimit(
 ): Promise<boolean> {
   const key = `${keyPrefix()}:limit:${name}:${id}`;
   try {
-    const count = await redis.incr(key);
-    if (count === 1) await redis.expire(key, seconds);
+    const [, count] = await redis.pipeline().set(key, 0, { nx: true, ex: seconds }).incr(key).exec();
     return count > max;
   } catch {
+    console.error(`limit check failed: ${name}`);
     return true;
   }
 }
