@@ -3,7 +3,7 @@
 import { useId, useMemo, useRef, useState, type MouseEvent } from "react";
 import { formatShortDate } from "@/lib/format";
 import { matches, MIN_QUERY_LENGTH, type SearchRecord } from "@/lib/search";
-import { topicOf } from "@/lib/topics";
+import { topicOf, topicStyle } from "@/lib/topics";
 import styles from "./SearchDialog.module.css";
 
 const INDEX_URL = "/search-index.json";
@@ -100,7 +100,7 @@ export function SearchDialog() {
               {results.map((record) => {
                 const topic = topicOf(record.topic);
                 return (
-                  <li key={record.slug} className={styles.result} data-topic={topic?.slug}>
+                  <li key={record.slug} className={styles.result} data-topic={topic?.slug} style={topicStyle(topic)}>
                     <a href={record.url} rel="noopener noreferrer" data-slug={record.slug} className={styles.link}>
                       {record.title}
                     </a>

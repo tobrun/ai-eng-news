@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Article } from "@/lib/types";
-import { topicOf } from "@/lib/topics";
+import { topicOf, topicStyle, type Topic } from "@/lib/topics";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import { StoryImage } from "./StoryImage";
 import styles from "./StoryCard.module.css";
@@ -64,11 +64,17 @@ function accentTint(accentHue: Article["accentHue"]): CSSProperties | undefined 
   return accentHue == null ? undefined : ({ "--hue": accentHue } as CSSProperties);
 }
 
+function cardStyle(article: Article, topic: Topic | undefined): CSSProperties | undefined {
+  const tint = accentTint(article.accentHue);
+  const hue = topicStyle(topic);
+  return tint || hue ? { ...hue, ...tint } : undefined;
+}
+
 export function StoryCard({ article, variant, priority = false }: StoryCardProps) {
   const topic = topicOf(article.topic);
 
   return (
-    <article className={`${styles.card} ${styles[variant]}`} data-topic={topic?.slug} style={accentTint(article.accentHue)}>
+    <article className={`${styles.card} ${styles[variant]}`} data-topic={topic?.slug} style={cardStyle(article, topic)}>
       <StoryImage
         src={article.image}
         className={styles.media}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Article } from "@/lib/types";
-import { topicOf } from "@/lib/topics";
+import { topicOf, topicStyle } from "@/lib/topics";
 import { formatReadTime, formatShortDate } from "@/lib/format";
 import styles from "./StoryList.module.css";
 
@@ -32,7 +32,7 @@ export function StoryList({ articles, heading }: StoryListProps) {
             const topic = topicOf(article.topic);
             return (
               <li key={article.slug} className={styles.row}>
-                <article className={styles.article} data-topic={topic?.slug}>
+                <article className={styles.article} data-topic={topic?.slug} style={topicStyle(topic)}>
                   <time dateTime={article.postedAt} className={styles.date}>
                     {formatShortDate(article.postedAt)}
                   </time>

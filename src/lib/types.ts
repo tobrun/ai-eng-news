@@ -1,12 +1,5 @@
-/** The editor's seven topics; a story carries one of these slugs or none. */
-export type TopicSlug =
-  | "agents"
-  | "evals"
-  | "retrieval"
-  | "inference"
-  | "training"
-  | "security"
-  | "foundations";
+/** A topic's slug; the published topic list in `src/data/articles.ts` says which ones exist. */
+export type TopicSlug = string;
 
 /** The editor's size for a story. Position, not prominence, picks the hero and side cards; the rest split by it. */
 export type Prominence = "lead" | "feature" | "brief";
