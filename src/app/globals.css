@@ -83,34 +83,6 @@
   }
 }
 
-[data-topic="training"] {
-  --topic-h: 25;
-}
-
-[data-topic="inference"] {
-  --topic-h: 75;
-}
-
-[data-topic="evals"] {
-  --topic-h: 145;
-}
-
-[data-topic="retrieval"] {
-  --topic-h: 195;
-}
-
-[data-topic="foundations"] {
-  --topic-h: 245;
-}
-
-[data-topic="agents"] {
-  --topic-h: 295;
-}
-
-[data-topic="security"] {
-  --topic-h: 345;
-}
-
 *,
 *::before,
 *::after {
@@ -177,7 +149,7 @@ body {
   outline-offset: 2px;
 }
 
-/* A list row's topic name, tinted by the row's `data-topic`. */
+/* A list row's topic name, tinted by the row's inline `--topic-h`. */
 .topic-kicker {
   color: oklch(var(--kicker-l) var(--kicker-c) var(--topic-h));
   font-weight: 700;

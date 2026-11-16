@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { topicPath } from "@/lib/topics";
+import { menuEntries } from "@/lib/topics";
 import { topicsWithStories } from "@/lib/articles";
 import { newsletterEnabled } from "@/lib/newsletter";
 import type { TopicSlug } from "@/lib/types";
@@ -16,10 +16,7 @@ interface HeaderProps {
 }
 
 export function Header({ current }: HeaderProps) {
-  const entries = [
-    { key: "news", name: "News", href: "/" },
-    ...topicsWithStories().map((topic) => ({ key: topic.slug, name: topic.name, href: topicPath(topic.slug) })),
-  ];
+  const entries = menuEntries(topicsWithStories());
 
   return (
     <header className={styles.header}>
