@@ -14,7 +14,7 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 2,
     "postedAt": "2026-11-18",
     "prominence": "lead",
-    "image": null,
+    "image": "https://static.simonwillison.net/static/2026/sandbox-proxy.png",
     "accentHue": null,
     "topic": "agents",
     "editionId": "2026-11-18"
@@ -59,8 +59,8 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-18",
     "prominence": "feature",
-    "image": null,
-    "accentHue": null,
+    "image": "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Robotics_Banner.2e16d0ba.fill-1200x600.jpg",
+    "accentHue": 235,
     "topic": "training",
     "editionId": "2026-11-18"
   },
@@ -74,7 +74,7 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-18",
     "prominence": "feature",
-    "image": null,
+    "image": "https://x.ai/news/grok-bot-accounting/opengraph-image-d0cm3f.png?opengraph-image.1hvtvvnt2u7k3.png?dpl=c0d48929bf2ad6f96d687d8baedfc7bef44b5448",
     "accentHue": null,
     "topic": "agents",
     "editionId": "2026-11-18"
@@ -89,7 +89,7 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-18",
     "prominence": "feature",
-    "image": null,
+    "image": "https://somethingbig.ai/post-assets/use-your-subagents-as-judges/cover.jpg",
     "accentHue": null,
     "topic": "agents",
     "editionId": "2026-11-18"
