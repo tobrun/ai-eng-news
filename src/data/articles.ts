@@ -44,8 +44,8 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-21",
     "prominence": "feature",
-    "image": null,
-    "accentHue": null,
+    "image": "https://storage.googleapis.com/gweb-research2023-media/images/HO_previewImage1.width-800.format-jpeg.jpg",
+    "accentHue": 126,
     "topic": "agents",
     "editionId": "2026-11-21"
   },
@@ -134,8 +134,8 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-21",
     "prominence": "brief",
-    "image": null,
-    "accentHue": null,
+    "image": "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/header_2.2e16d0ba.fill-1200x600.png",
+    "accentHue": 257,
     "topic": "training",
     "editionId": "2026-11-21"
   },
@@ -164,8 +164,8 @@ export const articles: PublishedArticle[] = [
     "readMinutes": 1,
     "postedAt": "2026-11-21",
     "prominence": "brief",
-    "image": null,
-    "accentHue": null,
+    "image": "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/00-hero-banner.2e16d0ba.fill-1200x600.png",
+    "accentHue": 17,
     "topic": "training",
     "editionId": "2026-11-21"
   },
